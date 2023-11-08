@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GASSQL Web App</title>
+  <style>
+    /* Add your custom CSS styles here */
+  </style>
+</head>
+<body>
+  <h1>GASSQL Web App</h1>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- The table rows will be dynamically populated using JavaScript -->
+    </tbody>
+  </table>
+
+  <script>
+    // Function to fetch data from Google Sheet and populate the table
+    function fetchData() {
+      google.script.run.withSuccessHandler(fillTable).getDataFromSheet();
+    }
+
+    // Function to populate the table with data
+    function fillTable(data) {
+      var tableBody = document.querySelector("#data-table tbody");
+
+      // Clear the table body
+      tableBody.innerHTML = "";
+
+      // Loop through the data and create table rows
+      data.forEach(function(item) {
+        var row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td>${item.name}</td>
+          <td>${item.email}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Fetch data on page load
+    window.onload = function() {
+      fetchData();
+    };
+  </script>
+</body>
+</html>
