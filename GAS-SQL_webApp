@@ -1,0 +1,45 @@
+function getDataFromSQL() {
+  // Connect to your SQL database and retrieve the data
+  
+  // TODO: Add your SQL connection code here
+  
+  // Sample data for testing
+  var data = [
+    { id: 1, name: "John Doe", email: "john@example.com" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com" },
+    { id: 3, name: "Bob Johnson", email: "bob@example.com" }
+  ];
+  
+  return data;
+}
+
+function displayData(data) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Clear the existing data in the sheet
+  sheet.clear();
+  
+  // Write the headers
+  var headers = Object.keys(data[0]);
+  sheet.appendRow(headers);
+  
+  // Write the data
+  for (var i = 0; i < data.length; i++) {
+    var row = [];
+    
+    for (var property in data[i]) {
+      if (data[i].hasOwnProperty(property)) {
+        row.push(data[i][property]);
+      }
+    }
+    
+    sheet.appendRow(row);
+  }
+}
+
+function doGet() {
+  var data = getDataFromSQL();
+  displayData(data);
+  
+  return HtmlService.createHtmlOutputFromFile('index');
+}
